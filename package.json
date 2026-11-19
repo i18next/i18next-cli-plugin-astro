@@ -1,0 +1,49 @@
+{
+  "name": "i18next-cli-plugin-astro",
+  "version": "0.0.0",
+  "description": "i18next-cli plugin that lets extract and status find translation keys in .astro files",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "test": "node --test test/index.test.js"
+  },
+  "keywords": [
+    "i18next",
+    "i18next-cli",
+    "i18next-cli-plugin",
+    "astro",
+    "i18n",
+    "extract"
+  ],
+  "author": "Adriano Raiano",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/i18next/i18next-cli-plugin-astro.git"
+  },
+  "homepage": "https://github.com/i18next/i18next-cli-plugin-astro",
+  "bugs": {
+    "url": "https://github.com/i18next/i18next-cli-plugin-astro/issues"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "dependencies": {
+    "@astrojs/astro2tsx": "^0.1.4"
+  },
+  "peerDependencies": {
+    "i18next-cli": "^1.91.1"
+  },
+  "devDependencies": {
+    "i18next-cli": "^1.91.1"
+  }
+}

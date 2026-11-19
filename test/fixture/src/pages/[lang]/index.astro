@@ -1,0 +1,20 @@
+---
+import i18next from 'i18next'
+import en from '../../../locales/en/translation.json'
+import de from '../../../locales/de/translation.json'
+export function getStaticPaths() { return [{ params: { lang: 'en' } }, { params: { lang: 'de' } }] }
+const { lang } = Astro.params
+const resources = { en: { translation: en }, de: { translation: de } }
+const i18n = i18next.createInstance()
+await i18n.init({ lng: lang, resources })
+const t = i18n.t
+const description = t('description')
+---
+<html lang={lang}>
+  <head><meta charset="utf-8" /><title>{t('title')}</title><meta name="description" content={description} /></head>
+  <body>
+    <h1>{t('title')}</h1>
+    <p>{t('hello', { name: 'Anna' })}</p>
+    <p>{t('items', { count: 1 })} / {t('items', { count: 3 })}</p>
+  </body>
+</html>

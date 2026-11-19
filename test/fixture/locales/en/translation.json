@@ -1,0 +1,7 @@
+{
+  "description": "A small bakery in town",
+  "hello": "Hello {{name}}",
+  "items_one": "{{count}} loaf left",
+  "items_other": "{{count}} loaves left",
+  "title": "Fresh bread every morning"
+}

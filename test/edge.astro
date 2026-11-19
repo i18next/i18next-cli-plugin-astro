@@ -1,0 +1,34 @@
+---
+import i18next from 'i18next'
+const t = i18next.getFixedT(Astro.params.lang, 'common')
+if (!Astro.locals.user) return Astro.redirect('/login')
+const heading = t('fm.heading')
+const items = ['a', 'b']
+---
+<!doctype html>
+<!-- a comment with {braces} -->
+<html>
+<head>
+  <style>
+    .x { content: "{" }
+  </style>
+</head>
+<body>
+  <h1>{heading}</h1>
+  {items.map((item) => (
+    <li>Don't {t('tpl.mapped', { item })}</li>
+  ))}
+  <p set:html={t('tpl.sethtml')} class:list={['a', { b: true }]} />
+  <input placeholder={t('tpl.attr')} disabled>
+  <br>
+  {Astro.locals.user ? <span>{t('tpl.ternary')}</span> : <em>it's {t('tpl.else')}</em>}
+  <Fragment slot="x">{t('tpl.slot')}</Fragment>
+  <p title="literal {not.an.expr}">text with } stray</p>
+  <button onclick="return false">x</button>
+  <script>
+    import i18next from 'i18next'
+    if (document.title) { document.title = i18next.t('script.title') }
+  </script>
+  <script is:inline>window.i18next.t('script.inline')</script>
+</body>
+</html>
