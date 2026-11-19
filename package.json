@@ -14,7 +14,9 @@
     "index.d.ts"
   ],
   "scripts": {
-    "test": "node --test test/index.test.js"
+    "test": "node --test test/index.test.js",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags"
   },
   "keywords": [
     "i18next",
