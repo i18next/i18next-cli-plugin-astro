@@ -43,9 +43,9 @@
     "@astrojs/astro2tsx": "^0.1.4"
   },
   "peerDependencies": {
-    "i18next-cli": "^1.91.4"
+    "i18next-cli": "^1.92.0"
   },
   "devDependencies": {
-    "i18next-cli": "^1.91.4"
+    "i18next-cli": "^1.92.0"
   }
 }

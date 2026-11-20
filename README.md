@@ -10,7 +10,7 @@ Without it, i18next-cli reads only JavaScript and TypeScript files (`.js`, `.jsx
 npm install --save-dev i18next-cli i18next-cli-plugin-astro
 ```
 
-Requires Node.js 22.12 or newer and i18next-cli 1.91.4 or newer.
+Requires Node.js 22.12 or newer and i18next-cli 1.92.0 or newer.
 
 ## Configure
 
