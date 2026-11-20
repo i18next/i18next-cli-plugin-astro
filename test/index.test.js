@@ -48,6 +48,31 @@ test('status fails when a key is missing in a language', (t) => {
   assert.notEqual(run(dir, 'status').status, 0)
 })
 
+test('lint reports hardcoded strings and interpolation problems on the .astro lines', (t) => {
+  const dir = copyFixture(t)
+  writeFileSync(join(dir, 'src/pages/[lang]/index.astro'), [
+    '---',
+    'const t = (key: string, options?: object) => key',
+    "const greeting = t('hello', { nam: 'Ben' })",
+    '---',
+    '<h1>{greeting}</h1>',
+    '<!-- i18next-instrument-ignore-next-line -->',
+    '<kbd>Esc</kbd>',
+    '<p>Opening hours</p>',
+    "<p>{t('hello', { person: 'Cleo' })}</p>"
+  ].join('\n'))
+  const { status, stdout, stderr } = run(dir, 'lint')
+  assert.equal(status, 1, stdout + stderr)
+  const issues = stdout.split('\n').filter(line => /^\s+\d+: /.test(line)).map(line => line.trim())
+  assert.deepEqual(issues, [
+    '8: Error: Found hardcoded string: "Opening hours"',
+    '3: Error: Interpolation issue: "Interpolation parameter "name" was not provided"',
+    '3: Error: Interpolation issue: "Parameter "nam" is not used in translation string"',
+    '9: Error: Interpolation issue: "Interpolation parameter "name" was not provided"',
+    '9: Error: Interpolation issue: "Parameter "person" is not used in translation string"'
+  ])
+})
+
 test('template expressions, attributes, nested markup and client scripts', async () => {
   const { allKeys } = await findKeys({
     locales: ['en'],

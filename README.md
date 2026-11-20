@@ -1,6 +1,6 @@
 # i18next-cli-plugin-astro
 
-An [i18next-cli](https://github.com/i18next/i18next-cli) plugin that lets `extract` and `status` find the translation keys in `.astro` files.
+An [i18next-cli](https://github.com/i18next/i18next-cli) plugin that lets `extract` and `status` find the translation keys in `.astro` files, and `lint` check them.
 
 Without it, i18next-cli reads only `.js`, `.jsx`, `.ts` and `.tsx`: the keys of your Astro pages stay unseen, and `status` reports 100% while a translation is missing.
 
@@ -10,7 +10,7 @@ Without it, i18next-cli reads only `.js`, `.jsx`, `.ts` and `.tsx`: the keys of 
 npm install --save-dev i18next-cli i18next-cli-plugin-astro
 ```
 
-Requires Node.js 22.12 or newer and i18next-cli 1.91.1 or newer.
+Requires Node.js 22.12 or newer and i18next-cli 1.91.4 or newer.
 
 ## Configure
 
@@ -66,11 +66,28 @@ gives `home:title`, `home:greeting`, `home:loaves_one` and `home:loaves_other` (
 
 The frontmatter and the template share one scope, as in Astro, so a `t` from `getFixedT(lang, 'ns')` in the frontmatter keeps its namespace in the template.
 
-`lint` and `instrument` do not read `.astro` files yet.
+`instrument` does not read `.astro` files yet.
+
+## Lint
+
+`i18next-cli lint` checks `.astro` files like `.tsx` files: hardcoded text in the template, and `t()` calls in the frontmatter and template whose interpolation parameters do not match the translation. Issues are reported on the lines of the `.astro` file:
+
+```text
+src/pages/[lang]/index.astro
+  8: Error: Found hardcoded string: "Opening hours"
+  3: Error: Interpolation issue: "Parameter "nam" is not used in translation string"
+```
+
+An HTML comment skips the next line:
+
+```astro
+<!-- i18next-instrument-ignore-next-line -->
+<kbd>Esc</kbd>
+```
 
 ## How it works
 
-The plugin converts each `.astro` file with [`@astrojs/astro2tsx`](https://www.npmjs.com/package/@astrojs/astro2tsx), the converter behind Astro's editor tooling, and hands the result to i18next-cli's own extractor. So everything i18next-cli finds in a `.tsx` file it finds in an `.astro` file too.
+The plugin converts each `.astro` file with [`@astrojs/astro2tsx`](https://www.npmjs.com/package/@astrojs/astro2tsx), the converter behind Astro's editor tooling, and hands the result to i18next-cli's own extractor and linter. So everything i18next-cli finds in a `.tsx` file it finds in an `.astro` file too.
 
 ## License
 
