@@ -2,7 +2,7 @@
 
 An [i18next-cli](https://github.com/i18next/i18next-cli) plugin that lets `extract` and `status` find the translation keys in `.astro` files, and `lint` check them.
 
-Without it, i18next-cli reads only `.js`, `.jsx`, `.ts` and `.tsx`: the keys of your Astro pages stay unseen, and `status` reports 100% while a translation is missing.
+Without it, i18next-cli reads only JavaScript and TypeScript files (`.js`, `.jsx`, `.mjs`, `.cjs`, `.ts`, `.tsx`, `.mts`, `.cts`): the keys of your Astro pages stay unseen, and `status` reports 100% while a translation is missing.
 
 ## Install
 
@@ -65,6 +65,15 @@ gives `home:title`, `home:greeting`, `home:loaves_one` and `home:loaves_other` (
 - the bodies of client `<script>` tags (bare, `type="module"` and `is:inline`)
 
 The frontmatter and the template share one scope, as in Astro, so a `t` from `getFixedT(lang, 'ns')` in the frontmatter keeps its namespace in the template.
+
+i18next-cli reads a function named `getT` as next-i18next's `getT(ns, options)`. If your own helper takes the language first, `getT(lang, 'home')`, say so in the config, or `t('title')` ends up as `home.title` in the default namespace instead of `title` in `home`:
+
+```ts
+extract: {
+  // …
+  useTranslationNames: [{ name: 'getT', nsArg: 1, keyPrefixArg: 2 }]
+}
+```
 
 `instrument` does not read `.astro` files yet.
 
