@@ -1,6 +1,6 @@
 {
   "name": "i18next-cli-plugin-astro",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "i18next-cli plugin that lets extract and status find translation keys in .astro files",
   "type": "module",
   "exports": {
