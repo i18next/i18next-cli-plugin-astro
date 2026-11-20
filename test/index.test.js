@@ -5,6 +5,7 @@ import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:f
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { stripVTControlCharacters } from 'node:util'
 import { findKeys } from 'i18next-cli'
 import astro from '../index.js'
 
@@ -12,8 +13,11 @@ const here = (p) => fileURLToPath(new URL(p, import.meta.url))
 const fixture = here('./fixture')
 const cli = here('../node_modules/i18next-cli/dist/esm/cli.js')
 
-const run = (cwd, ...args) =>
-  spawnSync(process.execPath, [cli, ...args, '-c', join(fixture, 'i18next.config.js')], { cwd, encoding: 'utf8' })
+// The output is matched as text: without the colors a terminal with FORCE_COLOR gets
+const run = (cwd, ...args) => {
+  const result = spawnSync(process.execPath, [cli, ...args, '-c', join(fixture, 'i18next.config.js')], { cwd, encoding: 'utf8' })
+  return { ...result, stdout: stripVTControlCharacters(result.stdout), stderr: stripVTControlCharacters(result.stderr) }
+}
 
 const copyFixture = (t) => {
   const dir = mkdtempSync(join(tmpdir(), 'astro-plugin-'))
